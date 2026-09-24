@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import { useAuth } from '../features/auth/useAuth'
+import { AppSidebar } from './components/AppSidebar'
+import { AppTopbar } from './components/AppTopbar'
+import './workspace.css'
 
 export function AppShell({ children }) {
   const { user, logout } = useAuth()
-  return <div className="app-shell"><aside className="sidebar"><div className="brand-mark"><span className="brand-icon">✓</span>Focusly</div><span className="nav-label">Không gian làm việc</span><div className="nav-item active">◎ Tài khoản</div><div className="sidebar-user"><strong>{user.thong_tin_tai_khoan?.ho_ten}</strong><span>{user.tai_khoan}</span><button className="button" onClick={logout}>Đăng xuất</button></div></aside><main className="app-main">{children}</main></div>
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  async function signOut() {
+    setBusy(true)
+    setError('')
+    try { await logout() } catch { setError('Không thể đăng xuất. Vui lòng thử lại.') } finally { setBusy(false) }
+  }
+  return <div className="workspace"><AppSidebar user={user} onLogout={signOut} busy={busy} /><div className="workspace-body"><AppTopbar user={user} /><main className="workspace-main">{error && <p className="alert alert-error" role="alert">{error}</p>}{children}</main><footer className="workspace-footer"><span>Focusly · Từng việc nhỏ, một ngày tốt hơn.</span><span>Không gian của bạn</span></footer></div></div>
 }

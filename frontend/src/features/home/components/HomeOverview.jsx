@@ -1,0 +1,7 @@
+export function HomeStats({ stats }) {
+  return <section className="home-stats" aria-label="Thống kê công việc">{[['▦', 'Tổng công việc', stats.total, 'Tất cả kế hoạch của bạn'], ['◷', 'Cần làm hôm nay', stats.today, 'Tập trung vào hiện tại'], ['✓', 'Đã hoàn thành', stats.completed, 'Những bước tiến nhỏ']].map(([icon, label, count, note]) => <div className="home-card stat-card" key={label}><span className="stat-icon">{icon}</span><span>{label}</span><strong>{count.toString().padStart(2, '0')}</strong><small>{note}</small></div>)}</section>
+}
+export function HomeOverview({ stats }) {
+  const percent = stats.total ? Math.round(stats.completed / stats.total * 100) : 0
+  return <aside className="home-right"><section className="home-card progress-card"><span className="overline">TỪNG BƯỚC TIẾN LÊN</span><h2>Tiến độ của bạn</h2><div className="progress-ring" style={{ '--progress': `${percent}%` }} role="img" aria-label={`Hoàn thành ${percent}%`}><div><strong>{percent}%</strong><span>hoàn thành</span></div></div><p><strong>{stats.completed}</strong> / {stats.total} công việc đã xong</p><div className="progress-caption">Không cần làm tất cả.<br />Chỉ cần bắt đầu từ một việc.</div></section><section className="focus-note"><span>✳</span><h2>Một việc mỗi lúc.</h2><p>Chọn một công việc quan trọng, tắt những thứ gây phân tâm và dành trọn sự chú ý cho nó.</p></section><p className="local-storage-note">Công việc lưu trên trình duyệt này theo tài khoản, chưa đồng bộ giữa các thiết bị.</p></aside>
+}

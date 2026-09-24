@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AccountController;
 use App\Http\Controllers\Api\ChallengeController;
 use App\Http\Controllers\Api\DangKyController;
+use App\Http\Controllers\Api\GetTaiKhoanController;
 use App\Http\Controllers\Api\SessionController;
 use App\Http\Middleware\EnsureAccountSession;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::middleware('web')->group(function (): void {
 
     Route::middleware(['auth:web', EnsureAccountSession::class])->group(function (): void {
         Route::get('/me', [SessionController::class, 'show']);
+        Route::get('/tai-khoan', [GetTaiKhoanController::class, 'show']);
         Route::get('/user', [SessionController::class, 'show']);
         Route::post('/dang-xuat', [SessionController::class, 'destroy']);
         Route::patch('/thong-tin-ca-nhan', [AccountController::class, 'update']);
